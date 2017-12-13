@@ -1,0 +1,100 @@
+//
+//  ZTGuidePageViewController.m
+//  AppleMobileBusinessHall
+//
+//  Created by 赵方正 on 16/12/14.
+//  Copyright (c) 2016年 网达. All rights reserved.
+//  引导页
+
+#import "ZTGuidePageViewController.h"
+//#import "ZTTransition.h"
+
+NSInteger const kImageCount = 3;
+
+@interface ZTGuidePageViewController () <UIScrollViewDelegate>
+
+@property (nonatomic, strong) UIScrollView *scrollView;
+@property (nonatomic, strong) UIPageControl *pageControl;
+@property (nonatomic, strong) UIButton *enterButton;
+
+@end
+
+@implementation ZTGuidePageViewController
+
+#pragma mark - Lifecycle
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    [self initUserInterface];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+}
+
+#pragma mark - UserInterface
+- (void)initUserInterface
+{
+    CGSize viewSize = self.view.bounds.size;
+    
+    UIScrollView *scrollView = [[UIScrollView alloc] init];
+    scrollView.frame = self.view.bounds;
+    scrollView.showsHorizontalScrollIndicator = NO;
+    scrollView.pagingEnabled = YES;
+    scrollView.contentSize = CGSizeMake(kImageCount*viewSize.width, 0);
+    scrollView.delegate = self;
+    scrollView.bounces = NO;
+    scrollView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:scrollView];
+    self.scrollView = scrollView;
+    
+    for (int index = 0; index<kImageCount; index++) {
+        [self addImageViewAtIndex:index inView:scrollView];
+    }
+    
+    
+    self.enterButton = [UIButton buttonWithType:UIButtonTypeCustom];
+
+    self.enterButton.frame = CGRectMake(0, 0, self.view.width, self.view.height);
+    [self.enterButton addTarget:self action:@selector(enterImmediately:) forControlEvents:UIControlEventTouchUpInside];
+    self.enterButton.hidden = YES;
+    [self.view addSubview:self.enterButton];
+
+}
+
+#pragma mark 添加scrollview里面的imageview
+- (void)addImageViewAtIndex:(int)index inView:(UIView *)view
+{
+    CGSize viewSize = self.view.frame.size;
+    
+    UIImageView *imageView = [[UIImageView alloc] init];
+    imageView.frame = (CGRect){{index*viewSize.width, 0} , viewSize};
+    imageView.contentMode = UIViewContentModeScaleAspectFill;
+    imageView.clipsToBounds = YES;
+    NSString *name = [NSString stringWithFormat:@"欢迎页%d", index+1];
+    imageView.image = [UIImage imageNamed:name];
+    imageView.tag = index;
+    [view addSubview:imageView];
+}
+
+#pragma mark - ButtonAction
+- (void)enterImmediately:(id)sender
+{
+    if (self.block) {
+        self.block();
+    }
+}
+
+#pragma mark - UIScrollViewDelegate
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    self.enterButton.hidden = YES;
+    NSInteger page = scrollView.contentOffset.x/scrollView.width;
+    if (page == kImageCount-1) {
+        self.enterButton.hidden = NO;
+    }
+}
+
+@end

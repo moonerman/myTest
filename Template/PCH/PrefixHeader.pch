@@ -1,0 +1,56 @@
+//
+//  PrefixHeader.pch
+//  Template
+//
+//  Created by 森度 on 2017/8/16.
+//  Copyright © 2017年 森度. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#import "UIView+Z_Frame.h"
+
+#import "UIButton+SSEdgeInsets.h"
+#import <IQKeyboardManager.h>
+#import <ZBarSDK.h>
+#import <KxMenu.h>
+#import <QRCodeReaderViewController.h>
+#import <PNChart.h>
+#import <DKNightVersion.h>
+#import <BRPickerView.h>
+//#import <MBProgressHUD.h>
+#import "MBProgressHUD+Extion.h"
+#import "BaiduMap.h"
+#import <WMPageController.h>
+#import <Masonry/Masonry.h>
+#import <POP/POP.h>
+#import <UICountingLabel.h>
+#import <SMS_SDK/SMSSDK.h>
+#import <JMessage/JMessage.h>
+
+#define iOS7 ([[UIDevice currentDevice].systemVersion doubleValue] >= 7.0)
+#ifdef DEBUG
+#define ZLog(...)  NSLog(@"文件名:%s\n(第%d行)\n输出内容:%@", __PRETTY_FUNCTION__, __LINE__, [NSString stringWithFormat:__VA_ARGS__])
+#else
+#define ZLog(...)
+#endif
+
+
+#define JMSSAGE_APPKEY @"6fb27a7513274ef32cdab5d9"
+/*
+#ifdef DEBUG
+# define DLog(fmt, ...) NSLog((@"[文件名:%s]\n" "[函数名:%s]\n" "[行号:%d] \n" fmt), __FILE__, __FUNCTION__, __LINE__, ##__VA_ARGS__);
+#else
+# define DLog(...);
+#endif
+*/
+//#define  SCREEN_WIDTH                    ([UIScreen mainScreen].bounds.size.width)
+//#define  SCREEN_HEIGHT                   ([UIScreen mainScreen].bounds.size.height)
+
+#define WidthPersent  SCREEN_WIDTH/375.0
+#define HeightPersent  SCREEN_HEIGHT/667.0
+#endif /* PrefixHeader_pch */
